@@ -1,0 +1,539 @@
+---
+title: "Estructuras de datos Vectores"
+output:
+  word_document: default
+  html_document:
+    df_print: paged
+autor: Juan Manuel Moreno
+---
+
+Dentro de R, existen diferentes tipos de estructuras de datos con las que podemos trabajar, dentro de esta sección, explicaremos en qué consisten y mostraremos algunas de sus principales funciones:
+
+-   **Vectores**
+-   **Arrays**
+-   **Listas**
+-   **Factores**
+-   **Matrices**
+-   **Dataframes**
+
+## Vectores
+
+En R, un **vector** es una sucesión de elementos de una dimensión. Un vector puede soportar diferentes tipos de variables. Para su construcción, se utiliza la función **`c`**.
+
+```{r}
+a <- c(1, 3.0, 7, 'hola')
+
+a
+```
+
+
+
+```{r}
+a
+a[0]
+```
+
+Podemos indexar un vector accediendo a sus posiciones.
+
+```{r}
+# Primera posición
+a[1]
+
+# Posición n
+a[4]
+
+# Rango de posiciones
+a[2:4]
+```
+```{r}
+a
+```
+
+
+```{r}
+# Excluir elementos
+a[-2] # Sin la posición 2
+
+```
+A través de máscara booleana o vector lógico
+
+```{r}
+a
+```
+
+```{r}
+a[c(TRUE, F, F, T)]
+```
+
+Es **muy** importante resaltar que en los vectores cuando aplicamos una operación, la aplicamos a todos los elementos del vector, a no ser que especifiquemos lo contrario.
+
+Para que podamos aplicar operaciones sobre un vector, todos sus elementos deben ser del mismo tipo, es decir, sobre nuestro vector actual no podríamos operar.
+
+```{r}
+a
+```
+
+```{r}
+a+4
+# Error in a + 4 : non-numeric argument to binary operator
+```
+```{r}
+b <- c(30, 20, 10, 40, 50)
+```
+
+```{r}
+b + 100
+```
+
+
+```{r}
+# Asignación de un nuevo vector
+b <- c(1, 30, 4, 56, 9)
+
+# Suma a todos los elementos de 4
+b + 4
+
+# Resta a todos los elementos de 3
+b - 3
+
+# Todos los elementos al cuadrado
+b ^ 2
+```
+
+### Ejercicio 1
+
+Sobre vector b. ¿Qué valores son pares?
+
+#### Solución
+
+```{r}
+b
+```
+
+```{r}
+# En clase
+b %% 2
+```
+```{r}
+b %% 2 == 0
+```
+
+Si tenemos más de un vector del mismo tipo y longitud, podemos aplicar operaciones sobre ellos.
+
+```{r}
+b
+```
+```{r}
+length(b)
+```
+
+```{r}
+# Resta de vectores
+c <- c(3, 50, 4, 3, 0)
+
+b - c
+```
+
+
+```{r}
+# Producto de vectores, elemento a elemento
+c * b
+```
+
+#### Ejercicio 2
+
+Toma los siguientes vectores
+
+```{r}
+u <- c(4, 5, 6)
+v <- c(1, 2, 3)
+```
+
+Realiza la suma, resta, producto, división y exponencial de ambos
+
+#### Solución
+
+```{r}
+# Suma
+u + v
+```
+
+```{r}
+# Resta
+u - v 
+```
+
+```{r}
+# Producto
+u * v
+```
+
+```{r}
+# División
+ u / v
+```
+
+```{r}
+# Exponencial
+ u ^ v
+```
+
+### Ejercicio 3
+
+Toma los siguientes vectores:
+
+```{r}
+u <- c(5, 6, 7, 8)
+v <- c(2, 3, 4)
+```
+
+Como puedes comprobar no son de la misma longitud ambos vectores, realiza la suma, resta, producto, división y exponencial de ambos.
+
+#### Solución
+
+```{r}
+u
+v
+```
+
+```{r warning=TRUE}
+# Suma
+u + v
+```
+```{r}
+u
+v
+```
+
+```{r, warning = FALSE}
+# Resta
+u - v 
+```
+
+```{r}
+# Producto
+u * v
+```
+
+```{r}
+# División
+ u / v
+```
+
+```{r}
+# Exponencial
+ u ^ v
+```
+
+### Ejercicio 4
+
+Vamos a crear un nuevo vector a través de la siguiente operación `(2 * u + v ) / 10`. Para ello, toma los vectores del ejercicio 2.
+
+#### Solución
+
+```{r}
+# Vectores del ejercicio 2
+u <- c(4, 5, 6)
+v <- c(1, 2, 3)
+```
+
+```{r}
+# Creamos un nuevo vector
+
+w <- (2 * u + v ) / 10
+```
+
+```{r}
+w
+```
+
+Existen algunas funciones que son propias de los vectores, este caso, nos permiten realizar aritmética vectorial:
+
+-   **length**. Longitud de un vector
+
+```{r}
+length(b)
+length(a)
+length(c)
+```
+
+-   **sum**. Realiza la suma de todos los elementos del vector
+
+```{r}
+b
+```
+
+```{r}
+sum(b)
+```
+
+-   **prod**. Realiza el producto de todos los elementos del vector.
+
+```{r}
+prod(b)
+```
+
+-   **min**. Devuelve el elemento mínimo de un vector.
+
+```{r}
+min(b)
+```
+
+-   **max**. Devuelve el elemento máximo de un vector.
+
+```{r}
+max(b)
+```
+
+-   **range**. Devuelve el rango del vector, es decir, de su elemento mínimo a máximo
+
+```{r}
+range(b)
+```
+
+-   **mean**. Devuelve la media del vector.
+
+```{r}
+mean(b)
+```
+
+-   **var**. Devuelve la varianza del vector.
+
+```{r}
+var(b)
+```
+
+-   **sd**. Devuelve la desviación estándar del vector.
+
+```{r}
+sd(b)
+```
+
+-   **cumsum**. Devuelve la suma acumulada elemento a elemento del vector
+
+```{r}
+b
+```
+
+```{r}
+cumsum(b)
+```
+
+-   **cumprod**. Devuelve el producto acumulado del vector elemento a elemento.
+
+```{r}
+cumprod(b)
+```
+
+-   **sqrt**. Raíz de todos los elementos del vector
+
+```{r}
+sqrt(b)
+```
+```{r}
+# b.max()
+# 
+# mean(min(max(b)))
+# 
+# b.max().min().mean()
+```
+
+A través de vectores, podemos crear sucesiones, en algunas ocasiones partiendo de un vector de entrada o, creándolo de cero:
+
+-   Generar un vector a partir de un rango definido de n a m. A través del operador **:**
+
+```{r}
+1:20
+```
+```{r}
+mean(1:20)
+```
+
+
+```{r}
+vector <- 4:8
+vector
+```
+```{r}
+vector[-3]
+```
+
+-   Generar secuencias a través de la función **seq**, esta función toma como parámetros, origen de la secuencia, máximo de la secuencia, elemento de división.
+
+```{r}
+seq(-10, 20, 2)  # -10 a 20 de dos en dos
+```
+```{r}
+seq(0, 1, 0.1)
+```
+-   A través de la función **rep**. Podemos generar vectores de números repetidos, esta función toma como parámetros el número a repetir (o elemento) y el número de veces.
+
+```{r}
+# Un número 
+rep(2, 200)
+rep(0.5, 10)
+```
+
+
+```{r}
+# Secuencias de números
+rep(1:10, 3)
+```
+-   Mediante la función **sample**, que toma como parámetros el rango de valores, el número de elementos y si los valores se generaran con reemplazamiento o no.
+
+```{r}
+no.rep <- sample(1:10, 10, replace = F)
+si.rep <- sample(30:45, 10, replace = T)
+
+no.rep
+si.rep
+```
+
+```{r}
+# library(dplyr) # from dplyr import *
+```
+```{r}
+# dplyr::select()
+```
+
+
+Otra forma de seleccionar sub-vectores dentro de un vector ya existente es a través de operaciones de comparación (expresiones booleanas), vemos algunos ejemplos.
+
+```{r}
+# Creamos un vector nuevo
+z <- rep(1:20, 3)
+z
+```
+```{r}
+z < 7
+```
+
+
+```{r}
+# Vamos a asignar a todos los elementos del vector que sean menores de 7 el valor 1
+
+z[z < 7] <- 1
+z
+```
+```{r}
+z[1] <- 900
+z
+```
+```{r}
+z != 19
+```
+
+```{r}
+# Seleccionar todos los elementos del vector que son diferentes de 19
+z[z != 19]
+```
+```{r}
+z != 19 & z != 18
+```
+
+```{r}
+z[z != 19 & z != 18]
+```
+```{r}
+muestra <- sample(1:100000, 100, replace = T)
+```
+
+
+```{r}
+muestra[muestra < 80000]
+```
+
+Finalmente, mostraremos cómo ordenar un vector a través de la función **sort**.
+
+```{r}
+# Generamos vector
+no.rep.dos <- sample(30:60, 10, replace = F)
+no.rep.dos
+```
+
+
+```{r}
+# Mostramos el vector ordenado
+sort(no.rep.dos, decreasing = T)
+```
+
+### Ejercicio 5
+
+Crea una secuencia con los números del 40 al 100, primero utilizando la función `seq` y después como rango personalizado.
+
+#### Solución
+
+```{r}
+#  En clase
+seq(40, 100)
+```
+```{r}
+40:100
+```
+
+
+### Ejercicio 6
+
+Crea un vector desde el 20 al 60 y muestra la suma de sus números
+
+#### Solución
+
+```{r}
+# En clase
+v.6 <- 20:60
+print(paste("La suma del vector es ", sum(v.6)))
+```
+```{r}
+print(paste("La suma del vector es ", sum(20:60)))
+```
+
+### Ejercicio 7
+
+Crea un vector con las posiciones de 0 a 100 tomadas de dos en dos y muestra la media del vector
+
+#### Solución
+
+```{r}
+# En clase
+v.7 <- seq(0, 100, 2)
+v.7
+```
+```{r}
+print(paste("La media del vector es: ", mean(v.7)))
+```
+
+
+### Ejercicio 8
+
+Teniendo en cuenta tu DNI (sin la letra), crea un vector que sea cada número del DNI repetido tantas veces como valor tenga el número:
+
+Por ejemplo:
+
+DNI: 53796. Salida del programa: 555553337777777999999999666666
+
+#### Solución
+
+```{r}
+# En clase
+rep(5, 5)
+rep(3, 3)
+rep(7, 7)
+rep(9, 9)
+rep(6, 6)
+```
+
+```{r}
+c(
+  rep(5, 5),
+  rep(3, 3),
+  rep(7, 7),
+  rep(9, 9),
+  rep(6, 6)
+)
+```
+
+```{r}
+as.numeric(c("1", "2", "3"))
+```
+
+

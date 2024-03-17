@@ -1,0 +1,133 @@
+```{r}
+install.packages(c("tidyverse", "lubridate", "conflicted"))
+
+
+library(tidyverse)
+library(lubridate)
+
+# Carga el dataset como dataframe y borra columnas no informativas
+df <- read.csv("C:/Users/Cristian Mendieta/OneDrive/Escritorio/Data Science/PracticaFinalR/da_market_data.csv")
+df <- df[, -1]
+df
+```
+```{r}
+# Obtén el rango de las fechas
+df$fecha <- as.Date(df$fecha)
+rango_fechas <- range(df$fecha)
+años_registros <- length(unique(year(df$fecha)))
+df
+```
+
+
+```{r}
+# ¿Qué día del mes se reportan más registros? ¿Cuál es el que menos?
+dia_mas_registros <- as.numeric(names(sort(table(day(df$fecha)), decreasing = TRUE)[1]))
+dia_menos_registros <- as.numeric(names(sort(table(day(df$fecha)))[1]))
+dia_mas_registros
+dia_menos_registros
+```
+
+
+```{r}
+# Transforma valores negativos en nulos y realiza operaciones
+df$precio[df$precio < 0] <- NA
+
+# Asigna cero a nulos excepto para Dinamarca
+df$precio[is.na(df$precio) & grepl("DK", df$sistema)] <- 0
+
+df
+```
+
+
+```{r}
+# Borra el resto de nulos y cuenta cuántos datos se han borrado
+antes_borrado <- nrow(df)
+df <- na.omit(df)
+datos_borrados <- antes_borrado - nrow(df)
+
+
+antes_borrado
+datos_borrados
+```
+
+
+```{r}
+# Crea variable categórica ESTACION
+df$ESTACION <- ifelse(df$bandera == 0, "Invierno", "Verano")
+df
+```
+
+
+```{r}
+# Recodifica variable tipo_moneda
+df$tipo_moneda <- factor(df$tipo_moneda, levels = c(1, 2), labels = c("Euros", "Libras"), exclude = NULL)
+df
+```
+
+
+```{r}
+# Analiza el precio medio del mercado energético en función de la estación y el tipo de moneda
+precio_medio_estacion_moneda <- df %>%
+  group_by(ESTACION, tipo_moneda) %>%
+  summarize(precio_medio = mean(precio, na.rm = TRUE))
+df
+```
+
+
+```{r}
+# Calcula la diferencia en días entre la fecha de actualización y la columna fecha
+df$diferencia_dias <- as.numeric(difftime(as.Date(df$fecha_actualizacion), df$fecha, units = "days"))
+df
+```
+
+
+```{r}
+# Muestra el promedio de días de actualización
+promedio_dias_actualizacion <- mean(df$diferencia_dias, na.rm = TRUE)
+```
+
+
+```{r}
+# Filtra por tipo de moneda Euros y mercado español, visualiza la serie respecto a la fecha
+df_espana_euros <- df %>%
+  filter(tipo_moneda == "Euros" & sistema == "ES")
+
+plot(df_espana_euros$fecha, df_espana_euros$precio, type = "l",
+     main = "Precio del mercado energético en España (Euros)",
+     xlab = "Fecha", ylab = "Precio")
+```
+
+
+```{r}
+# Precio medio en euros por cada año para Francia y España
+precio_medio_por_año <- df %>%
+  filter(tipo_moneda == "Euros") %>%
+  group_by(year(df$fecha), sistema) %>%
+  summarize(precio_medio = mean(precio, na.rm = TRUE)) %>%
+  spread(sistema, precio_medio)
+
+barplot(as.matrix(precio_medio_por_año[, -1]), beside = TRUE, col = rainbow(2),
+        main = "Precio Medio por Año en Francia y España",
+        xlab = "Año", ylab = "Precio Medio")
+
+precio_medio_por_año
+```
+
+
+```{r}
+# Top 10 de precios más altos y más bajos sin importar la moneda
+top_10_altos <- df %>%
+  group_by(sistema) %>%
+  summarize(precio_medio = mean(precio, na.rm = TRUE)) %>%
+  arrange(desc(precio_medio)) %>%
+  head(10)
+
+top_10_bajos <- df %>%
+  group_by(sistema) %>%
+  summarize(precio_medio = mean(precio, na.rm = TRUE)) %>%
+  arrange(precio_medio) %>%
+  head(10)
+top_10_altos
+top_10_bajos
+```
+

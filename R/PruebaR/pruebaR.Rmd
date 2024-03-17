@@ -1,0 +1,58 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+Ejercicio de R
+1. Matriz
+```{r}
+matrizA<- matrix(1:20, ncol = 5, nrow = 4, byrow = T)
+matrizA
+```
+2. Extraer los elementos A[4, 3]; A[3, 4]; A[2, 5] utilizando una matriz de índices
+
+```{r}
+index<- matrix(c(4, 3, 3, 4, 2, 5), ncol=2, byrow=T)
+index
+elements<- matrizA[index]
+elements
+```
+3.Reemplazar los elementos indexados por 0
+
+```{r}
+matrizA[index] <- 0
+matrizA
+
+```
+4. Crear la matriz de identidad 5x5
+
+```{r}
+identity <- diag(5)
+identity
+```
+5. Convertir la matriz A anterior (la resultante del apartado 3) en una matriz cuadrada B añadiendo al final una fila de unos.
+
+```{r}
+matrizCuadradaUnos <- rbind(matrizA, rep(1, ncol(matrizA)))
+matrizCuadradaUnos
+```
+6. Calcular la inversa de la matriz B
+7. Multiplicar B por su inversa B-1
+
+```{r}
+matrizInversa <- solve(matrizCuadradaUnos)
+matrizInversa
+```
+8.Comprobar si el resultado es exactamente la matriz de identidad I
+```{r}
+result <- matrizA %*% matrizInversa
+result
+
+```
+9. En caso contrario, calcular el error de la operación entendiendo como error la siguiente fórmula (donde N es el número de elementos de la matriz B) :
+```{r}
+Error <- 1/25 * sum(abs(matrizCuadradaUnos %*% matrizInversa - identity))
+Error
+```
+
+
+

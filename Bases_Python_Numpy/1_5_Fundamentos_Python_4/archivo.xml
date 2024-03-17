@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<biblioteca>
+    <libro>
+        <titulo>Python para principiantes</titulo>
+        <autor>John Doe</autor>
+        <publicacion>2023</publicacion>
+    </libro>
+    <libro>
+        <titulo>Programación en Python</titulo>
+        <autor>Jane Smith</autor>
+        <publicacion>2022</publicacion>
+    </libro>
+</biblioteca>
